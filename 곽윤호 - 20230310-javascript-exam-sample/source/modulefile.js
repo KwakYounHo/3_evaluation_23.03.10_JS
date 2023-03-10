@@ -49,3 +49,5 @@ const _EXAMDATA = {
     breakPoint : [ "768px", "1280px",  "1920px"]
   }
 }
+
+module.exports = _EXAMDATA;
