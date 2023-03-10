@@ -25,7 +25,7 @@ root.appendChild(C_form);
 
 
 // 팀 순번 만들기 ---------------------------------
-// label tag 생성
+// select tag생성
 yh.labelMaker('teamSel','몇 조 입니까? : ',C_form);
 const C_teamSel = document.createElement('select');
 yh.setAttri(C_teamSel,'id','teamSel')
