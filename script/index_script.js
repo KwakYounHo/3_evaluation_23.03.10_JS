@@ -93,21 +93,35 @@ function teamMemberplus() {
   C_memNumInputButton.addEventListener('click',function () {
     function inprom() {
       inputNumber = Number(prompt('팀 구성원의 학번을 입력해 주십시오'));
-      if (isNaN(inputNumber)) { // prompt로 입력 받은 문자열이 숫자인지 아닌지 구분해주는 메서드
-        alert('숫자만 입력 가능합니다.');
-        inprom();
+      if (inputNumber !== 0) {
+        if (isNaN(inputNumber)) { // prompt로 입력 받은 문자열이 숫자인지 아닌지 구분해주는 메서드
+          alert('숫자만 입력 가능합니다.');
+          inprom();
+        } else {
+          C_memNumInputButton.remove();
+          const p = document.createElement('input');
+          yh.setAttri(p,'type','text');
+          yh.setAttri(p,'id','memNum');
+          yh.setAttri(p,'value',inputNumber);
+          p.style.backgroundColor = 'rgb(168, 168, 168)';
+          p.readOnly = true;
+          memberDatawrap.children[0].after(p);
+          const edit = document.createElement('button');
+          yh.setAttri(edit,'type','button')
+          edit.innerText = '수정'
+          edit.addEventListener('click',editMemNum);
+          memberDatawrap.children[1].after(edit);
+          
+          return inputNumber;
+        }
       } else {
-        return inputNumber;
+        let retry = confirm('0 이상의 수를 입력 해 주세요.\n입력을 취소하려면 "취소"버튼을 눌러주세요');
+        if (retry) {
+          inprom()
+        }
       }
     }
     inprom();
-    C_memNumInputButton.remove();
-    const p = document.createElement('input');
-    yh.setAttri(p,'type','text');
-    yh.setAttri(p,'id','memNum');
-    yh.setAttri(p,'value',inputNumber);
-    p.readOnly = true;
-    memberDatawrap.insertBefore(p,memberDatawrap.children[2])
   })
   
   // 구성원 이름
@@ -209,8 +223,29 @@ function teamMemberplus() {
   yh.setAttri(C_submit,'type','submit');
   C_form.appendChild(C_submit);
   // -----------------------------------------------
-
+  
+  // 폼 일시 정지-----------------------------------
   const formTarget = document.querySelector('#root > form');
   formTarget.onsubmit = function () {
     return false;
   }
+  // -----------------------------------------------
+  
+  // 학번 수정 버튼 ---------------------------------
+  function editMemNum() {
+    if (this.parentElement.children[1].readOnly === true) {
+      this.parentElement.children[1].readOnly = false;
+      this.parentElement.children[1].style.backgroundColor = 'white';
+      this.innerText = '완료'
+      
+    } else if (this.parentElement.children[1].readOnly === false) {
+      if (isNaN(this.parentElement.children[1].value)) {
+        alert('숫자만 입력 가능합니다')
+      } else {
+        this.innerText = '수정'
+        this.parentElement.children[1].readOnly = true;
+        this.parentElement.children[1].style.backgroundColor = 'rgb(168, 168, 168)';
+      }
+    }
+  }
+  // -----------------------------------------------
